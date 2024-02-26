@@ -7,10 +7,7 @@ from embedding import Embedder
 
 
 class Sidebar:
-    ibs_0 = "gpt-3.5-turbo"
-    ibs_1 = "gpt-4"
-    MODEL_OPTIONS = [ibs_0, ibs_1]
-    # MODEL_OPTIONS = ["gpt-3.5-turbo", "gpt-4"]
+    MODEL_OPTIONS = ["gpt-3.5-turbo", "gpt-4"]
     TEMPERATURE_MIN_VALUE = 0.0
     TEMPERATURE_MAX_VALUE = 1.0
     TEMPERATURE_DEFAULT_VALUE = 0.0
@@ -48,7 +45,7 @@ class Sidebar:
     def show_options(self):
         with st.sidebar.expander("Настройки", expanded=True):
             self.reset_chat_button()
-            self.model_selector()
+            # self.model_selector()
             self.temperature_slider()
             st.session_state.setdefault("model", self.MODEL_OPTIONS[0])
             st.session_state.setdefault("temperature", self.TEMPERATURE_DEFAULT_VALUE)
@@ -77,7 +74,8 @@ class Utilities:
         """
         Handles the file upload and displays the uploaded file
         """
-        uploaded_file = st.sidebar.file_uploader("upload", type="pdf", label_visibility="collapsed")
+        uploaded_file = st.sidebar.file_uploader("Загрузить настройки", label_visibility="hidden")
+        
         if uploaded_file is not None:
             pass
         else:
