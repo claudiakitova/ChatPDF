@@ -31,7 +31,7 @@ class Embedder:
         # Load the data from the file using Langchain
         loader = PyPDFLoader(file_path=tmp_file_path)
         data = loader.load_and_split()
-        print(f"Loaded {len(data)} documents from {tmp_file_path}")
+        # print(f"Loaded {len(data)} documents from {tmp_file_path}")
 
         # Create an embeddings object using Langchain
         embeddings = OpenAIEmbeddings(allowed_special={'<|endofprompt|>'})

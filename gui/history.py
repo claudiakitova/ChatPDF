@@ -12,13 +12,13 @@ class ChatHistory:
         st.session_state["history"] = self.history
 
     def default_greeting(self):
-        return "Hi ! 👋"
+        return "Привет!"
 
     def default_prompt(self, topic):
-        return f"Hello ! Ask me anything about {topic} 🤗"
+        return f"Привет! Я ваш помощник в финансовой аналитике. Хотите что-нибудь узнать?"
 
     def initialize(self, topic):
-        message(self.default_greeting(), key='hi', avatar_style="adventurer", is_user=True)
+        message(self.default_greeting(), key='hi', avatar_style="shapes", is_user=True)
         message(self.default_prompt(topic), key='ai', avatar_style="thumbs")
 
     def reset(self):
@@ -36,7 +36,7 @@ class ChatHistory:
                             msg.content,
                             is_user=True,
                             key=f"{i}_user",
-                            avatar_style="adventurer",
+                            avatar_style="shapes",
                         )
                     elif isinstance(msg, AIMessage):
                         message(msg.content, key=str(i), avatar_style="thumbs")

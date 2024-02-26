@@ -7,7 +7,10 @@ from embedding import Embedder
 
 
 class Sidebar:
-    MODEL_OPTIONS = ["gpt-3.5-turbo", "gpt-4"]
+    ibs_0 = "gpt-3.5-turbo"
+    ibs_1 = "gpt-4"
+    MODEL_OPTIONS = [ibs_0, ibs_1]
+    # MODEL_OPTIONS = ["gpt-3.5-turbo", "gpt-4"]
     TEMPERATURE_MIN_VALUE = 0.0
     TEMPERATURE_MAX_VALUE = 1.0
     TEMPERATURE_DEFAULT_VALUE = 0.0
@@ -15,31 +18,26 @@ class Sidebar:
 
     @staticmethod
     def about():
-        about = st.sidebar.expander("About 🤖")
+        about = st.sidebar.expander("О нас")
         sections = [
-            "#### ChatPDF is an AI chatbot featuring conversational memory, designed to enable users to discuss their "
-            "PDF data in a more intuitive manner. 📄",
-            "#### Powered by [Langchain](https://github.com/hwchase17/langchain), [OpenAI]("
-            "https://platform.openai.com/docs/models/gpt-3-5) and [Streamlit](https://github.com/streamlit/streamlit) "
-            "⚡",
-            "#### Source code : [Ubisoft-potato/ChatPDF](https://github.com/Ubisoft-potato/ChatPDF)",
+            "#### Компания IBS ✨[LLM-решения](https://ibs.ru)",
         ]
         for section in sections:
             about.write(section)
 
     def model_selector(self):
-        model = st.selectbox(label="Model", options=self.MODEL_OPTIONS)
+        model = st.selectbox(label="Модель", options=self.MODEL_OPTIONS)
         st.session_state["model"] = model
 
     @staticmethod
     def reset_chat_button():
-        if st.button("Reset chat"):
+        if st.button("Сбросить чат"):
             st.session_state["reset_chat"] = True
         st.session_state.setdefault("reset_chat", False)
 
     def temperature_slider(self):
         temperature = st.slider(
-            label="Temperature",
+            label="Регулировка",
             min_value=self.TEMPERATURE_MIN_VALUE,
             max_value=self.TEMPERATURE_MAX_VALUE,
             value=self.TEMPERATURE_DEFAULT_VALUE,
@@ -48,7 +46,7 @@ class Sidebar:
         st.session_state["temperature"] = temperature
 
     def show_options(self):
-        with st.sidebar.expander("🛠️ Tools", expanded=True):
+        with st.sidebar.expander("Настройки", expanded=True):
             self.reset_chat_button()
             self.model_selector()
             self.temperature_slider()
@@ -65,13 +63,13 @@ class Utilities:
         """
         if os.path.exists(".env") and os.environ.get("OPENAI_API_KEY") is not None:
             user_api_key = os.environ["OPENAI_API_KEY"]
-            st.sidebar.success("API key loaded from .env", icon="🚀")
+            st.sidebar.success("Ключ загружен")
         else:
             user_api_key = st.sidebar.text_input(
-                label="#### Your OpenAI API key 👇", placeholder="Paste your openAI API key, sk-", type="password"
+                label="#### ", placeholder="", type="password"
             )
             if user_api_key:
-                st.sidebar.success("API key loaded", icon="🚀")
+                st.sidebar.success("Ключ загружен")
         return user_api_key
 
     @staticmethod
@@ -83,9 +81,9 @@ class Utilities:
         if uploaded_file is not None:
             pass
         else:
-            st.sidebar.info(
-                "Upload your PDF file to get started", icon="👆"
-            )
+            # st.sidebar.info(
+            #     "", icon="👆"
+            # )
             st.session_state["reset_chat"] = True
         return uploaded_file
 
@@ -95,7 +93,7 @@ class Utilities:
         Sets up the chatbot with the uploaded file, model, and temperature
         """
         embeds = Embedder()
-        with st.spinner("Processing..."):
+        with st.spinner("Думаю..."):
             uploaded_file.seek(0)
             file = uploaded_file.read()
             vectors = embeds.getDocEmbeds(file, uploaded_file.name)
